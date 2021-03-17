@@ -1,5 +1,5 @@
+h1 This is products list
 row.mt-2
-  .col
     table.table.table-bordered.table-striped.table-hover
       thead.thead-dark
         tr
@@ -10,6 +10,7 @@ row.mt-2
           th Price
           th Created at
           th Updated at
+          th Action
       tbody
         - @fish.each do |a|
           tr
@@ -20,3 +21,21 @@ row.mt-2
             td = "#{a.price} Baht" 
             td.font-weight-light = "#{time_ago_in_words(a.created_at)} Ago"
             td.font-weight-light = "#{time_ago_in_words(a.updated_at)} Ago"
+            td
+              span
+                = link_to fish_path(a) do
+                  i.fas.fa-eye
+              span.ml-2
+                = link_to edit_fish_path(a) do
+                  i.fas.fa-pen
+              span.ml-2
+                = link_to fish_path(a), method: :delete, data: { confirm: "Are you sure?" } do
+                  i.fas.fa-trash
+
+.row
+  .col-6
+    = paginate @fish
+  .col-6
+    .float-right
+      = link_to new_fish_path do
+        = button_tag 'Add new Product', class: 'btn btn-primary'
