@@ -30,19 +30,19 @@ class FishController < ApplicationController
       flash[:error] = @fish.errors.full_messages
     end
 
-    redirect_to action: :index
+    redirect_to action: :admin
   end
 
   def update
     @fish = Fish.find(params[:id])
     @fish.update(fish_params)
-    redirect_to action: :index
+    redirect_to action: :admin
   end
 
   def destroy
     @fish = Fish.find(params[:id])
     @fish.destroy
-    redirect_to action: :index
+    redirect_to action: :admin
   end
 
   private
