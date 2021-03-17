@@ -1,4 +1,5 @@
 class FishController < ApplicationController
+  before_action :authenticate_admin!,only: [:admin,:create,:edit,:destroy]
   def index
     @fish = Fish.all
     @fish = @fish.page(params[:page]).per(5)
@@ -6,6 +7,7 @@ class FishController < ApplicationController
 
   def admin
     @fish = Fish.all
+    @fish = @fish.page(params[:page]).per(5)
   end
 
   def show

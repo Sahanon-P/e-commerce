@@ -1,6 +1,7 @@
-h1 This is products list
+h1 Admin seesion
 row
-  span.ml = link_to 'Admin', fish_admin_path
+  span = current_admin.email
+  span.ml-3 = link_to 'Logout', destroy_admin_session_path, method: :delete
 row.mt-2
     table.table.table-bordered.table-striped.table-hover
       thead.thead-dark
@@ -24,10 +25,17 @@ row.mt-2
             td.font-weight-light = "#{time_ago_in_words(a.created_at)} Ago"
             td.font-weight-light = "#{time_ago_in_words(a.updated_at)} Ago"
             td
-              span
-                = link_to fish_path(a) do
-                  i.fas.fa-eye
+              span.ml
+                = link_to edit_fish_path(a) do
+                  i.fas.fa-pen
+              span.ml-2
+                = link_to fish_path(a), method: :delete, data: { confirm: "Are you sure?" } do
+                  i.fas.fa-trash
 
 .row
   .col-6
     = paginate @fish
+  .col-6
+    .float-right
+      = link_to new_fish_path do
+        = button_tag 'Add new Product', class: 'btn btn-primary'
