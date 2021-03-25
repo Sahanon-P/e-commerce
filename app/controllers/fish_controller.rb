@@ -1,11 +1,6 @@
 class FishController < ApplicationController
-  before_action :authenticate_admin!,only: [:admin,:create,:edit,:destroy]
+  before_action :authenticate_admin!,only: [:create,:edit,:destroy]
   def index
-    @fish = Fish.all
-    @fish = @fish.page(params[:page]).per(5)
-  end
-
-  def admin
     @fish = Fish.all
     @fish = @fish.page(params[:page]).per(5)
   end
@@ -30,19 +25,19 @@ class FishController < ApplicationController
       flash[:error] = @fish.errors.full_messages
     end
 
-    redirect_to action: :admin
+    redirect_to action: :index
   end
 
   def update
     @fish = Fish.find(params[:id])
     @fish.update(fish_params)
-    redirect_to action: :admin
+    redirect_to action: :index
   end
 
   def destroy
     @fish = Fish.find(params[:id])
     @fish.destroy
-    redirect_to action: :admin
+    redirect_to action: :index
   end
 
   private

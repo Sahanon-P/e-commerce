@@ -1,6 +1,10 @@
 h1 This is products list
 row
-  span.ml = link_to 'Admin', fish_admin_path
+  -if current_admin
+        span.ml-3 = current_admin.email
+        span.ml-3 = link_to 'Logout', destroy_admin_session_path , method: :delete
+  -else
+    span.ml = link_to 'Login', admin_session_path
 row.mt-2
     table.table.table-bordered.table-striped.table-hover
       thead.thead-dark
@@ -27,6 +31,19 @@ row.mt-2
               span
                 = link_to fish_path(a) do
                   i.fas.fa-eye
+              -if current_admin
+                span.ml-2
+                  = link_to edit_fish_path(a) do
+                    i.fas.fa-pen
+                span.ml-2
+                  = link_to fish_path(a), method: :delete, data: { confirm: "Are you sure?" } do
+                    i.fas.fa-trash
+
+span.ml = link_to 'Category',categories_path
+-if current_admin
+  div.mb-2
+    = link_to new_fish_path do
+      = button_tag 'Add new Product', class: 'btn btn-primary'
 
 .row
   .col-6
