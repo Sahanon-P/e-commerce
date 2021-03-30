@@ -3,6 +3,10 @@ class FishController < ApplicationController
   def index
     @fish = Fish.all
     @fish = @fish.page(params[:page]).per(5)
+    respond_to do |format|
+      format.html
+      format.csv { send_data generate_csv(Fish.all), file_name: 'fish.csv' }
+    end
   end
 
   def show
@@ -20,7 +24,6 @@ class FishController < ApplicationController
 
   def create
     @fish = Fish.create(fish_params)
-
     if @fish.invalid?
       flash[:error] = @fish.errors.full_messages
     end
@@ -31,6 +34,7 @@ class FishController < ApplicationController
   def update
     @fish = Fish.find(params[:id])
     @fish.update(fish_params)
+    print(@fish.status)
     redirect_to action: :index
   end
 
@@ -40,9 +44,24 @@ class FishController < ApplicationController
     redirect_to action: :index
   end
 
+  def csv_upload
+    data = params[:csv_file].read.split("\n")
+    data.each do |line|
+      attr = line.split(",").map(&:strip)
+      Fish.create title: attr[0], description: attr[1], stock: attr[2], price: attr[3]
+    end
+    redirect_to action: :index
+  end
+
   private
 
+  def generate_csv(articles)
+    articles.map { |a| [a.title, a.description,a.stock,a.price, a.created_at.to_date].join(',') }.join("\n")
+  end
+
   def fish_params
-    params.require(:fish).permit(:title, :description,:stock,:price)
+    params.require(:fish).permit(:title, :description,:stock,:price,:status => []).tap do |w|
+      w[:status] = w[:status][1].to_i
+    end
   end
 end

@@ -3,4 +3,7 @@
   div = f.text_area :description, placeholder: 'Write the description here'
   div = f.number_field :stock, placeholder: 'Stock'
   div = f.number_field :price, placeholder: 'Price'
+  h3 Status
+  div = f.collection_check_boxes :status, Fish.statuses.map, :last, :first
+
   div = f.submit 'Submit Product'

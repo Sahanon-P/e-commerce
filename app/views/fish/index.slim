@@ -14,6 +14,7 @@ row.mt-2
           th Description
           th Stock 
           th Price
+          th Status
           th Created at
           th Updated at
           th Action
@@ -25,6 +26,7 @@ row.mt-2
             td = a.description
             td = a.stock
             td = "#{a.price} Baht" 
+            td = a.status.presence || 'NA'
             td.font-weight-light = "#{time_ago_in_words(a.created_at)} Ago"
             td.font-weight-light = "#{time_ago_in_words(a.updated_at)} Ago"
             td
@@ -48,3 +50,14 @@ span.ml = link_to 'Category',categories_path
 .row
   .col-6
     = paginate @fish
+
+.row
+  .col
+    .float-right
+      div.mb-2
+      = link_to '/fish.csv' do
+        = button_tag 'Download', class: 'btn btn-primary'
+    -if current_admin
+      = form_tag fish_csv_upload_path, multipart: true do
+        div = file_field_tag :csv_file
+        div = submit_tag :upload
