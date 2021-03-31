@@ -1,5 +1,5 @@
 class FishController < ApplicationController
-  before_action :authenticate_admin!,only: [:create,:edit,:destroy]
+  before_action :authenticate_admin!,only: [:create,:edit,:destroy,:csv_upload]
   def index
     @fish = Fish.all
     @fish = @fish.page(params[:page]).per(5)
@@ -34,7 +34,7 @@ class FishController < ApplicationController
   def update
     @fish = Fish.find(params[:id])
     @fish.update(fish_params)
-    print(@fish.status)
+    print(fish_params)
     redirect_to action: :index
   end
 
