@@ -1,4 +1,4 @@
-class FishCategoriesController < ApplicationController
+class Admins::FishCategoriesController < ApplicationController
     before_action :authenticate_admin!
     def create
         @categories = Category.find params[:category_id]
@@ -7,7 +7,7 @@ class FishCategoriesController < ApplicationController
         # print("This is params ")
         # print("\n")
         # print(fish_category_params)
-        redirect_to categories_path
+        redirect_to admins_categories_path
     end
     
     private

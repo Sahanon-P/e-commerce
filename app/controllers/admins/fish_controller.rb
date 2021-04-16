@@ -1,4 +1,4 @@
-class FishController < ApplicationController
+class Admins::FishController < ApplicationController
   before_action :authenticate_admin!,only: [:create,:edit,:destroy,:csv_upload]
   def index
     @fish = Fish.all
@@ -34,7 +34,11 @@ class FishController < ApplicationController
   def update
     @fish = Fish.find(params[:id])
     @fish.update(fish_params)
-    print(fish_params)
+    print("This is Fish Params")
+    print("\n")
+    print(fish_params[:primary_image])
+    print("\n")
+    print(fish_params[:supported_images])
     redirect_to action: :index
   end
 
@@ -53,6 +57,12 @@ class FishController < ApplicationController
     redirect_to action: :index
   end
 
+  def delete_image
+    @image = ActiveStorage::Attachment.find(params[:id])
+    @image.purge
+    redirect_to action: :index
+  end
+
   private
 
   def generate_csv(articles)
@@ -60,7 +70,7 @@ class FishController < ApplicationController
   end
 
   def fish_params
-    params.require(:fish).permit(:title, :description,:stock,:price,:status => []).tap do |w|
+    params.require(:fish).permit(:title, :description,:stock,:price,:primary_image,:supported_images => [],:status => []).tap do |w|
       w[:status] = w[:status][1].to_i
     end
   end

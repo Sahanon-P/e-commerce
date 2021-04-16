@@ -21,22 +21,22 @@ row.mt-2
             td = a.description
             td
               span.ml-2 
-                = link_to category_path(a) do
+                = link_to admins_category_path(a) do
                   i.fas.fa-eye
               -if current_admin
                 span.ml-2
-                  = link_to edit_category_path(a) do
+                  = link_to edit_admins_category_path(a) do
                     i.fas.fa-pen
                 span.ml-2
-                  = link_to category_path(a), method: :delete, data: { confirm: "Are you sure?" } do
+                  = link_to admins_category_path(a), method: :delete, data: { confirm: "Are you sure?" } do
                     i.fas.fa-trash
 
-span.ml = link_to 'Back',fish_index_path
+span.ml = link_to 'Back',admins_fish_index_path
 .row
   .col-6
     = paginate @categories
   -if current_admin
     .col-6
       .float-right
-        = link_to new_category_path do
+        = link_to new_admins_category_path do
           = button_tag 'Add new category', class: 'btn btn-primary'
