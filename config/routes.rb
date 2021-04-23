@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :admins
-  root "admins/fish#index"
-
+  root "homes#index"
+  resources :homes
   namespace :admins do
     resources :fish do
       member do
